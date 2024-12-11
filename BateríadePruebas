@@ -1,1 +1,46 @@
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+
+public class FacturaTest {
+
+    @Test
+    void SinDescuentoNiFidelizacion() {
+        Factura factura = new Factura(100, 0);
+        assertEquals(100, factura.calcularTotal(), 0.01);
+    }
+
+    @Test
+    void DescuentoValido() {
+        Factura factura = new Factura(200, 50);
+        assertEquals(100, factura.calcularTotal(), 0.01);
+    }
+
+    @Test
+    void DescuentoInvalido() {
+        Factura factura = new Factura(300, 150);
+        assertEquals(300, factura.calcularTotal(), 0.01); 
+    }
+
+    @Test
+    void ClienteFidelizado() {
+        Factura factura = new Factura(100, 0);
+        factura.clienteFidelizado = true;
+        assertEquals(95, factura.calcularTotal(), 0.01); // 5% descuento adicional
+    }
+
+    @Test
+    void DescuentoYFidelizacion() {
+        Factura factura = new Factura(400, 10);
+        factura.clienteFidelizado = true;
+        assertEquals(342, factura.calcularTotal(), 0.01); // (400 - 10%) - 5%
+    }
+
+    @Test
+    void NegativoPorDescuento() {
+        Factura factura = new Factura(100, 200);
+        factura.clienteFidelizado = true;
+        assertEquals(0, factura.calcularTotal(), 0.01); 
+    }
+}
 
